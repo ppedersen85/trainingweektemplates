@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Training Week Templates</title>
+    <style>
+        :root {
+            --primary: #000000;
+            --danger: #dc3545;
+            --warning: #fd7e14;
+            --success: #28a745;
+            --info: #17a2b8;
+            --gray-1: #f8f9fa;
+            --gray-2: #e9ecef;
+            --gray-3: #dee2e6;
+            --gray-4: #adb5bd;
+            --gray-5: #6c757d;
+            --gray-6: #343a40;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+                color: #e9ecef;
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            margin-right: 15px;
+        }
+
+        .logo svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #000000;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            h1 {
+                color: #ffffff;
+            }
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            background: white;
+            padding: 10px;
+            border-radius: 16px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            flex-wrap: wrap;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .tabs {
+                background: var(--gray-6);
+            }
+        }
+
+        .tab {
+            padding: 12px 24px;
+            border: none;
+            background: transparent;
+            color: var(--gray-5);
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .tab:hover {
+            background: var(--gray-1);
+            color: var(--primary);
+        }
+
+        .tab.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .tab {
+                color: var(--gray-4);
+            }
+            
+            .tab:hover {
+                background: var(--gray-5);
+                color: white;
+            }
+            
+            .tab.active {
+                background: var(--primary);
+            }
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .filter-container {
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .filter-container {
+                background: var(--gray-6);
+            }
+        }
+
+        .filter-label {
+            font-weight: 600;
+            color: var(--gray-6);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .filter-label {
+                color: var(--gray-2);
+            }
+        }
+
+        .filter-select {
+            padding: 10px 20px;
+            border: 2px solid var(--gray-3);
+            border-radius: 8px;
+            font-size: 1rem;
+            background: white;
+            cursor: pointer;
+            min-width: 200px;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .filter-select {
+                background: var(--gray-5);
+                color: white;
+                border-color: var(--gray-4);
+            }
+        }
+
+        .week-schedule {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            overflow-x: auto;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .week-schedule {
+                background: var(--gray-6);
+            }
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid var(--gray-2);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            th, td {
+                border-bottom-color: var(--gray-5);
+            }
+        }
+
+        th {
+            background: var(--gray-1);
+            font-weight: 600;
+            color: var(--gray-6);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            th {
+                background: var(--gray-5);
+                color: var(--gray-1);
+            }
+        }
+
+        .variant-row {
+            transition: all 0.3s ease;
+        }
+
+        .variant-row:hover {
+            background: var(--gray-1);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .variant-row:hover {
+                background: var(--gray-5);
+            }
+        }
+
+        .variant-row.hidden {
+            display: none;
+        }
+
+        .variant-name {
+            font-weight: 600;
+            text-align: left;
+            color: var(--primary);
+        }
+
+        .workout-hard {
+            background: var(--danger);
+            color: white;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: inline-block;
+        }
+
+        .workout-long {
+            background: var(--success);
+            color: white;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: inline-block;
+        }
+
+        .workout-easy {
+            background: var(--info);
+            color: white;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: inline-block;
+        }
+
+        .workout-rest {
+            background: var(--gray-3);
+            color: var(--gray-6);
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: inline-block;
+        }
+
+        .workout-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .detail-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .detail-card {
+                background: var(--gray-6);
+            }
+        }
+
+        .detail-card h4 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .detail-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .detail-card li {
+            padding: 5px 0;
+            color: var(--gray-5);
+        }
+
+        .detail-card li::before {
+            content: "→ ";
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .intensity-table {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .intensity-table {
+                background: var(--gray-6);
+            }
+        }
+
+        .intensity-table table {
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .intensity-table th {
+            text-align: left;
+            padding: 10px;
+        }
+
+        .intensity-table td {
+            text-align: left;
+            padding: 10px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .filter-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            table {
+                font-size: 0.8rem;
+            }
+
+            th, td {
+                padding: 8px 4px;
+            }
+
+            .workout-hard,
+            .workout-long,
+            .workout-easy,
+            .workout-rest {
+                padding: 4px 6px;
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="50" r="45" fill="none" stroke="#000" stroke-width="2"/>
+                    <path d="M30 50 L50 30 L70 50 L50 70 Z" fill="#000"/>
+                </svg>
+            </div>
+            <h1>Training Week Templates</h1>
+        </header>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showSection('variants')">📅 Alle varianter</button>
+            <button class="tab" onclick="showSection('details')">📊 Øktdetaljer</button>
+            <button class="tab" onclick="showSection('principles')">💡 Prinsipper</button>
+        </div>
+
+        <!-- All Variants Section -->
+        <div id="variants" class="content-section active">
+            <div class="filter-container">
+                <label class="filter-label">Filtrer etter antall økter:</label>
+                <select class="filter-select" onchange="filterVariants(this.value)">
+                    <option value="all">Vis alle varianter</option>
+                    <option value="2">2 økter per uke</option>
+                    <option value="3">3 økter per uke</option>
+                    <option value="4">4 økter per uke</option>
+                    <option value="5">5 økter per uke</option>
+                    <option value="6">6 økter per uke</option>
+                    <option value="7">7 økter per uke</option>
+                </select>
+            </div>
+
+            <div class="week-schedule">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="text-align: left;">Variant</th>
+                            <th>Mandag</th>
+                            <th>Tirsdag</th>
+                            <th>Onsdag</th>
+                            <th>Torsdag</th>
+                            <th>Fredag</th>
+                            <th>Lørdag</th>
+                            <th>Søndag</th>
+                        </tr>
+                    </thead>
+                    <tbody id="variants-table">
+                        <!-- Table content will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Workout Details Section -->
+        <div id="details" class="content-section">
+            <h2 style="margin-bottom: 20px; color: var(--primary);">Øktdetaljer</h2>
+            
+            <div class="workout-details">
+                <div class="detail-card">
+                    <h4>🏃 Hardøkt løp</h4>
+                    <ul>
+                        <li>Oppvarming: 15-20 min rolig (puls <155)</li>
+                        <li>Hoveddel (velg én):</li>
+                        <li>→ 4-6 x 4-5 min på terskel (puls ~182)</li>
+                        <li>→ 20-30 min tempoløp (puls 175-180)</li>
+                        <li>→ 3 x 8 min progressiv (170-175-180)</li>
+                        <li>Pause: 2-3 min aktiv hvile mellom drag</li>
+                        <li>Nedjogg: 10-15 min rolig</li>
+                    </ul>
+                </div>
+
+                <div class="detail-card">
+                    <h4>🚴 Hardøkt sykkel</h4>
+                    <ul>
+                        <li>Oppvarming: 20-25 min rolig</li>
+                        <li>Hoveddel (velg én):</li>
+                        <li>→ 4-5 x 8 min på terskel (puls ~172-177)</li>
+                        <li>→ 2 x 20 min sweetspot (puls 165-170)</li>
+                        <li>→ 40-60 min tempo (puls 160-165)</li>
+                        <li>Pause: 3-4 min lett tråkking</li>
+                        <li>Nedkjøring: 15 min rolig</li>
+                    </ul>
+                </div>
+
+                <div class="detail-card">
+                    <h4>🏃‍♂️ Langtur</h4>
+                    <ul>
+                        <li>Varighet: 60-120 min (bygg gradvis)</li>
+                        <li>Intensitet: Snakkepuls (puls <155)</li>
+                        <li>Terreng: Variert, gjerne kupert</li>
+                        <li>Kan være løp eller sykkel</li>
+                        <li>Drikke hver 20. min ved >90 min</li>
+                        <li>Fokus: Aerob base og fettforbrenning</li>
+                    </ul>
+                </div>
+
+                <div class="detail-card">
+                    <h4>🚶 Lett økt</h4>
+                    <ul>
+                        <li>Varighet: 30-60 min</li>
+                        <li>Intensitet: Helt rolig (puls <145)</li>
+                        <li>Formål: Aktiv restitusjon</li>
+                        <li>Løp, sykkel, svømming eller gange</li>
+                        <li>Avslutt med 5-10 min lett tøying</li>
+                        <li>Kan kombineres med styrke/stabilitet</li>
+                    </ul>
+                </div>
+
+                <div class="detail-card">
+                    <h4>💪 Styrketrening (tillegg)</h4>
+                    <ul>
+                        <li>Varighet: 20-30 min</li>
+                        <li>Fokus: Løpsspesifikk styrke</li>
+                        <li>Ettbensknebøy: 3x12 hver side</li>
+                        <li>Bulgarsk utfall: 3x10 hver side</li>
+                        <li>Planke: 3x45-60 sek</li>
+                        <li>Hoftehev: 3x15</li>
+                        <li>Tåhev: 3x20</li>
+                    </ul>
+                </div>
+
+                <div class="detail-card">
+                    <h4>📈 Konkurranseforberedelse</h4>
+                    <ul>
+                        <li>Siste 3 uker før konkurranse:</li>
+                        <li>Uke -3: Normal belastning</li>
+                        <li>Uke -2: 70% volum, økt intensitet</li>
+                        <li>Uke -1: 50% volum, kort intensitet</li>
+                        <li>Prioriter løpespesifikk trening</li>
+                        <li>Reduser sykling gradvis</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Principles Section -->
+        <div id="principles" class="content-section">
+            <h2 style="margin-bottom: 20px; color: var(--primary);">Treningsprinsipper</h2>
+            
+            <div class="intensity-table">
+                <h4>Intensitetsfordeling basert på treningsvolum</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Timer per uke</th>
+                            <th>Rolig trening</th>
+                            <th>Hard trening</th>
+                            <th>Kommentar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>2-3 timer</strong></td>
+                            <td>50-60%</td>
+                            <td>40-50%</td>
+                            <td>Høy andel kvalitet for å opprettholde form</td>
+                        </tr>
+                        <tr>
+                            <td><strong>4-5 timer</strong></td>
+                            <td>65-70%</td>
+                            <td>30-35%</td>
+                            <td>Balansert fordeling, god utvikling</td>
+                        </tr>
+                        <tr>
+                            <td><strong>6-8 timer</strong></td>
+                            <td>75-80%</td>
+                            <td>20-25%</td>
+                            <td>Klassisk polarisert modell</td>
+                        </tr>
+                        <tr>
+                            <td><strong>9+ timer</strong></td>
+                            <td>80-90%</td>
+                            <td>10-20%</td>
+                            <td>Elitemodell med høyt volum</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="detail-card">
+                <h4>Norsk treningsmodell (tilpasset volum)</h4>
+                <ul>
+                    <li>Ved lavt volum (<5 timer/uke): Høyere andel kvalitet (30-40%)</li>
+                    <li>Ved moderat volum (5-8 timer/uke): Tradisjonell 80/20 fordeling</li>
+                    <li>Ved høyt volum (>8 timer/uke): Kan gå opp til 90/10 fordeling</li>
+                    <li>Terskeltrening prioriteres fremfor VO2max for 10km/halvmaraton</li>
+                    <li>Doble terskeldager kun ved god restitusjonsevne</li>
+                    <li>Progresjon: Øk volum → øk frekvens → øk intensitet</li>
+                </ul>
+            </div>
+
+            <div class="detail-card">
+                <h4>Periodisering (4-ukers sykluser)</h4>
+                <ul>
+                    <li>Uke 1: Moderat belastning (90% av maks)</li>
+                    <li>Uke 2: Økt belastning (100%)</li>
+                    <li>Uke 3: Toppuke (110% - ekstra hardøkt eller volum)</li>
+                    <li>Uke 4: Restitusjon (70% - kun 1 hardøkt)</li>
+                    <li>Test/tidløp hver 2. syklus (uke 8, 16, osv)</li>
+                    <li>Bygg base i 8-12 uker før spesifikk fase</li>
+                </ul>
+            </div>
+
+            <div class="detail-card">
+                <h4>Restitusjon og tilpasning</h4>
+                <ul>
+                    <li>Minimum 48 timer mellom hardøkter ved <5 økter/uke</li>
+                    <li>Kan ha hardøkt 2 dager på rad ved 6+ økter/uke</li>
+                    <li>Langtur bør ha minst 1 hviledag før neste hardøkt</li>
+                    <li>HRV-måling anbefales for objektiv restitusjonsvurdering</li>
+                    <li>Reduser intensitet ved: dårlig søvn, høy hvilepuls (+5 slag), sykdomsfølelse</li>
+                </ul>
+            </div>
+
+            <div class="detail-card">
+                <h4>Løping vs sykling</h4>
+                <ul>
+                    <li>Sykkel: 5-10 slag lavere puls enn løp</li>
+                    <li>Tid-konvertering: 1 time løp ≈ 1.5-2 timer sykkel</li>
+                    <li>Prioriter løping ved <4 økter/uke</li>
+                    <li>Sykkel for ekstra volum uten belastning</li>
+                    <li>Maksimalt 40% sykkel i konkurranseperiode</li>
+                </ul>
+            </div>
+
+            <div class="detail-card">
+                <h4>Praktiske tips</h4>
+                <ul>
+                    <li>Loggfør alle økter med puls og opplevd anstrengelse</li>
+                    <li>Ukentlig evaluering: justér ved behov</li>
+                    <li>Prioriter konsistens over intensitet</li>
+                    <li>Bygg volum med maks 10% økning per uke</li>
+                    <li>Ta lett uke hver 4. uke uansett hvordan du føler deg</li>
+                    <li>Test framgang med 3km/5km test hver 6. uke</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const variants = [
+            // 2 økter varianter
+            {
+                id: 1,
+                name: "Minimal standard",
+                sessions: 2,
+                days: ["Hvile", "Hardøkt løp", "Hvile", "Hvile", "Hvile", "Langtur", "Hvile"],
+                description: "Klassisk minimumsopplegg"
+            },
+            {
+                id: 2,
+                name: "Minimal helg",
+                sessions: 2,
+                days: ["Hvile", "Hvile", "Hardøkt løp", "Hvile", "Langtur", "Hvile", "Hvile"],
+                description: "Kompakt midtuke"
+            },
+            // 3 økter varianter
+            {
+                id: 3,
+                name: "Standard 3-økt",
+                sessions: 3,
+                days: ["Hvile", "Hardøkt løp", "Hvile", "Hardøkt sykkel", "Hvile", "Langtur", "Hvile"],
+                description: "Balansert med god restitusjon"
+            },
+            {
+                id: 4,
+                name: "Helgefri 3-økt",
+                sessions: 3,
+                days: ["Hardøkt løp", "Hvile", "Hardøkt sykkel", "Hvile", "Langtur", "Hvile", "Hvile"],
+                description: "Fri helg for familie"
+            },
+            {
+                id: 5,
+                name: "Kompakt 3-økt",
+                sessions: 3,
+                days: ["Hvile", "Hardøkt løp", "Langtur", "Hardøkt sykkel", "Hvile", "Hvile", "Hvile"],
+                description: "Samlet belastning"
+            },
+            // 4 økter varianter
+            {
+                id: 6,
+                name: "Standard 4-økt",
+                sessions: 4,
+                days: ["Hvile", "Hardøkt løp", "Langtur", "Hardøkt sykkel", "Hvile", "Langtur", "Hvile"],
+                description: "To langturer for volum"
+            },
+            {
+                id: 7,
+                name: "Aktiv 4-økt",
+                sessions: 4,
+                days: ["Lett økt", "Hardøkt løp", "Hvile", "Hardøkt sykkel", "Hvile", "Langtur", "Hvile"],
+                description: "Med aktiv restitusjon"
+            },
+            {
+                id: 8,
+                name: "Helgefokus 4-økt",
+                sessions: 4,
+                days: ["Hardøkt løp", "Hvile", "Hardøkt sykkel", "Hvile", "Hvile", "Langtur", "Langtur"],
+                description: "Helgelangturer"
+            },
+            // 5 økter varianter
+            {
+                id: 9,
+                name: "Balansert 5-økt",
+                sessions: 5,
+                days: ["Lett økt", "Hardøkt løp", "Langtur", "Hardøkt sykkel", "Hvile", "Langtur", "Hvile"],
+                description: "Standard oppbygging"
+            },
+            {
+                id: 10,
+                name: "Aktiv 5-økt",
+                sessions: 5,
+                days: ["Lett økt", "Hardøkt løp", "Lett økt", "Hardøkt sykkel", "Hvile", "Langtur", "Hvile"],
+                description: "Ekstra restitusjon"
+            },
+            {
+                id: 11,
+                name: "Volumfokus 5-økt",
+                sessions: 5,
+                days: ["Langtur", "Hardøkt løp", "Hvile", "Hardøkt sykkel", "Lett økt", "Langtur", "Hvile"],
+                description: "Maksimal aerob utvikling"
+            },
+            // 6 økter varianter
+            {
+                id: 12,
+                name: "Standard 6-økt",
+                sessions: 6,
+                days: ["Lett økt", "Hardøkt løp", "Langtur", "Hardøkt sykkel", "Lett økt", "Langtur", "Hvile"],
+                description: "Kun søndagshvile"
+            },
+            {
+                id: 13,
+                name: "Dobbel hard 6-økt",
+                sessions: 6,
+                days: ["Lett økt", "Hardøkt løp", "Hardøkt sykkel", "Lett økt", "Lett økt", "Langtur", "Hvile"],
+                description: "Back-to-back hardøkter"
+            },
+            {
+                id: 14,
+                name: "Volum 6-økt",
+                sessions: 6,
+                days: ["Lett økt", "Hardøkt løp", "Lett økt", "Hardøkt sykkel", "Langtur", "Langtur", "Hvile"],
+                description: "Høyt grunnvolum"
+            },
+            // 7 økter varianter
+            {
+                id: 15,
+                name: "Elite 7-økt",
+                sessions: 7,
+                days: ["Lett økt", "Hardøkt løp", "Langtur", "Hardøkt sykkel", "Lett økt", "Langtur", "Lett økt"],
+                description: "Ingen hviledager"
+            },
+            {
+                id: 16,
+                name: "Dobbel 7-økt",
+                sessions: 7,
+                days: ["Lett økt", "Hardøkt løp", "Hardøkt sykkel", "Lett økt", "Lett økt", "Langtur", "Langtur"],
+                description: "Doble hardøkter og langturer"
+            },
+            {
+                id: 17,
+                name: "Polarisert 7-økt",
+                sessions: 7,
+                days: ["Lett økt", "Hardøkt løp", "Lett økt", "Hardøkt sykkel", "Lett økt", "Langtur", "Langtur"],
+                description: "Maksimal polarisering"
+            }
+        ];
+
+        function showSection(section) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(s => {
+                s.classList.remove('active');
+            });
+            
+            // Remove active from all tabs
+            document.querySelectorAll('.tab').forEach(t => {
+                t.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(section).classList.add('active');
+            
+            // Activate corresponding tab
+            event.target.classList.add('active');
+        }
+
+        function getWorkoutClass(workout) {
+            if (workout.includes('Hardøkt')) return 'workout-hard';
+            if (workout.includes('Langtur')) return 'workout-long';
+            if (workout.includes('Lett')) return 'workout-easy';
+            if (workout.includes('Hvile')) return 'workout-rest';
+            return '';
+        }
+
+        function loadVariants() {
+            const tbody = document.getElementById('variants-table');
+            tbody.innerHTML = variants.map(variant => `
+                <tr class="variant-row" data-sessions="${variant.sessions}">
+                    <td class="variant-name">${variant.name}<br><small style="color: var(--gray-5); font-weight: normal;">${variant.description}</small></td>
+                    ${variant.days.map(day => 
+                        `<td><span class="${getWorkoutClass(day)}">${day}</span></td>`
+                    ).join('')}
+                </tr>
+            `).join('');
+        }
+
+        function filterVariants(sessionCount) {
+            const rows = document.querySelectorAll('.variant-row');
+            
+            rows.forEach(row => {
+                if (sessionCount === 'all') {
+                    row.classList.remove('hidden');
+                } else {
+                    const sessions = parseInt(row.dataset.sessions);
+                    if (sessions === parseInt(sessionCount)) {
+                        row.classList.remove('hidden');
+                    } else {
+                        row.classList.add('hidden');
+                    }
+                }
+            });
+        }
+
+        // Load variants on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            loadVariants();
+        });
+    </script>
+</body>
+</html>
