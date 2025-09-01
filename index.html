@@ -257,44 +257,89 @@
             color: var(--primary);
         }
 
-        .workout-hard {
-            background: var(--danger);
-            color: white;
+        .workout-badge {
             padding: 6px 10px;
             border-radius: 6px;
             font-weight: 600;
             font-size: 0.85rem;
             display: inline-block;
+            cursor: help;
+            position: relative;
+            transition: transform 0.2s ease;
+        }
+
+        .workout-badge:hover {
+            transform: scale(1.05);
+        }
+
+        .workout-hard {
+            background: var(--danger);
+            color: white;
         }
 
         .workout-long {
             background: var(--success);
             color: white;
-            padding: 6px 10px;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 0.85rem;
-            display: inline-block;
         }
 
         .workout-easy {
             background: var(--info);
             color: white;
-            padding: 6px 10px;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 0.85rem;
-            display: inline-block;
         }
 
         .workout-rest {
             background: var(--gray-3);
             color: var(--gray-6);
-            padding: 6px 10px;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 0.85rem;
-            display: inline-block;
+        }
+
+        /* Tooltip styles */
+        .tooltip {
+            position: absolute;
+            background: white;
+            border: 1px solid var(--gray-3);
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            z-index: 1000;
+            width: 300px;
+            display: none;
+            pointer-events: none;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .tooltip {
+                background: var(--gray-6);
+                border-color: var(--gray-5);
+                color: var(--gray-1);
+            }
+        }
+
+        .tooltip.active {
+            display: block;
+        }
+
+        .tooltip h4 {
+            margin: 0 0 10px 0;
+            color: var(--primary);
+            font-size: 1rem;
+        }
+
+        .tooltip ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .tooltip li {
+            padding: 3px 0;
+            font-size: 0.9rem;
+            color: var(--gray-6);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .tooltip li {
+                color: var(--gray-3);
+            }
         }
 
         .workout-details {
@@ -309,6 +354,7 @@
             padding: 20px;
             border-radius: 12px;
             border-left: 4px solid var(--primary);
+            position: relative;
         }
 
         @media (prefers-color-scheme: dark) {
@@ -320,6 +366,24 @@
         .detail-card h4 {
             color: var(--primary);
             margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .edit-button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: opacity 0.2s ease;
+        }
+
+        .edit-button:hover {
+            opacity: 0.8;
         }
 
         .detail-card ul {
@@ -336,6 +400,71 @@
             content: "→ ";
             color: var(--primary);
             font-weight: bold;
+        }
+
+        .detail-card.editing li::before {
+            content: "";
+        }
+
+        .detail-card.editing ul {
+            display: none;
+        }
+
+        .edit-area {
+            display: none;
+            width: 100%;
+            min-height: 200px;
+            padding: 10px;
+            border: 1px solid var(--gray-3);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            resize: vertical;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .edit-area {
+                background: var(--gray-5);
+                color: white;
+                border-color: var(--gray-4);
+            }
+        }
+
+        .detail-card.editing .edit-area {
+            display: block;
+        }
+
+        .save-cancel-buttons {
+            display: none;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .detail-card.editing .save-cancel-buttons {
+            display: flex;
+        }
+
+        .save-button, .cancel-button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: opacity 0.2s ease;
+        }
+
+        .save-button {
+            background: var(--success);
+            color: white;
+        }
+
+        .cancel-button {
+            background: var(--gray-4);
+            color: white;
+        }
+
+        .save-button:hover, .cancel-button:hover {
+            opacity: 0.8;
         }
 
         .intensity-table {
@@ -384,12 +513,13 @@
                 padding: 8px 4px;
             }
 
-            .workout-hard,
-            .workout-long,
-            .workout-easy,
-            .workout-rest {
+            .workout-badge {
                 padding: 4px 6px;
                 font-size: 0.75rem;
+            }
+
+            .tooltip {
+                width: 250px;
             }
         }
     </style>
@@ -453,8 +583,11 @@
             <h2 style="margin-bottom: 20px; color: var(--primary);">Øktdetaljer</h2>
             
             <div class="workout-details">
-                <div class="detail-card">
-                    <h4>🏃 Hardøkt løp</h4>
+                <div class="detail-card" data-workout-type="hardøkt-løp">
+                    <h4>
+                        <span>🏃 Hardøkt løp</span>
+                        <button class="edit-button" onclick="editWorkout('hardøkt-løp')">Rediger</button>
+                    </h4>
                     <ul>
                         <li>Oppvarming: 15-20 min rolig (puls <155)</li>
                         <li>Hoveddel (velg én):</li>
@@ -464,10 +597,18 @@
                         <li>Pause: 2-3 min aktiv hvile mellom drag</li>
                         <li>Nedjogg: 10-15 min rolig</li>
                     </ul>
+                    <textarea class="edit-area"></textarea>
+                    <div class="save-cancel-buttons">
+                        <button class="save-button" onclick="saveWorkout('hardøkt-løp')">Lagre</button>
+                        <button class="cancel-button" onclick="cancelEdit('hardøkt-løp')">Avbryt</button>
+                    </div>
                 </div>
 
-                <div class="detail-card">
-                    <h4>🚴 Hardøkt sykkel</h4>
+                <div class="detail-card" data-workout-type="hardøkt-sykkel">
+                    <h4>
+                        <span>🚴 Hardøkt sykkel</span>
+                        <button class="edit-button" onclick="editWorkout('hardøkt-sykkel')">Rediger</button>
+                    </h4>
                     <ul>
                         <li>Oppvarming: 20-25 min rolig</li>
                         <li>Hoveddel (velg én):</li>
@@ -477,10 +618,18 @@
                         <li>Pause: 3-4 min lett tråkking</li>
                         <li>Nedkjøring: 15 min rolig</li>
                     </ul>
+                    <textarea class="edit-area"></textarea>
+                    <div class="save-cancel-buttons">
+                        <button class="save-button" onclick="saveWorkout('hardøkt-sykkel')">Lagre</button>
+                        <button class="cancel-button" onclick="cancelEdit('hardøkt-sykkel')">Avbryt</button>
+                    </div>
                 </div>
 
-                <div class="detail-card">
-                    <h4>🏃‍♂️ Langtur</h4>
+                <div class="detail-card" data-workout-type="langtur">
+                    <h4>
+                        <span>🏃‍♂️ Langtur</span>
+                        <button class="edit-button" onclick="editWorkout('langtur')">Rediger</button>
+                    </h4>
                     <ul>
                         <li>Varighet: 60-120 min (bygg gradvis)</li>
                         <li>Intensitet: Snakkepuls (puls <155)</li>
@@ -489,10 +638,18 @@
                         <li>Drikke hver 20. min ved >90 min</li>
                         <li>Fokus: Aerob base og fettforbrenning</li>
                     </ul>
+                    <textarea class="edit-area"></textarea>
+                    <div class="save-cancel-buttons">
+                        <button class="save-button" onclick="saveWorkout('langtur')">Lagre</button>
+                        <button class="cancel-button" onclick="cancelEdit('langtur')">Avbryt</button>
+                    </div>
                 </div>
 
-                <div class="detail-card">
-                    <h4>🚶 Lett økt</h4>
+                <div class="detail-card" data-workout-type="lett-økt">
+                    <h4>
+                        <span>🚶 Lett økt</span>
+                        <button class="edit-button" onclick="editWorkout('lett-økt')">Rediger</button>
+                    </h4>
                     <ul>
                         <li>Varighet: 30-60 min</li>
                         <li>Intensitet: Helt rolig (puls <145)</li>
@@ -501,10 +658,18 @@
                         <li>Avslutt med 5-10 min lett tøying</li>
                         <li>Kan kombineres med styrke/stabilitet</li>
                     </ul>
+                    <textarea class="edit-area"></textarea>
+                    <div class="save-cancel-buttons">
+                        <button class="save-button" onclick="saveWorkout('lett-økt')">Lagre</button>
+                        <button class="cancel-button" onclick="cancelEdit('lett-økt')">Avbryt</button>
+                    </div>
                 </div>
 
-                <div class="detail-card">
-                    <h4>💪 Styrketrening (tillegg)</h4>
+                <div class="detail-card" data-workout-type="styrke">
+                    <h4>
+                        <span>💪 Styrketrening (tillegg)</span>
+                        <button class="edit-button" onclick="editWorkout('styrke')">Rediger</button>
+                    </h4>
                     <ul>
                         <li>Varighet: 20-30 min</li>
                         <li>Fokus: Løpsspesifikk styrke</li>
@@ -514,10 +679,18 @@
                         <li>Hoftehev: 3x15</li>
                         <li>Tåhev: 3x20</li>
                     </ul>
+                    <textarea class="edit-area"></textarea>
+                    <div class="save-cancel-buttons">
+                        <button class="save-button" onclick="saveWorkout('styrke')">Lagre</button>
+                        <button class="cancel-button" onclick="cancelEdit('styrke')">Avbryt</button>
+                    </div>
                 </div>
 
-                <div class="detail-card">
-                    <h4>📈 Konkurranseforberedelse</h4>
+                <div class="detail-card" data-workout-type="konkurranse">
+                    <h4>
+                        <span>📈 Konkurranseforberedelse</span>
+                        <button class="edit-button" onclick="editWorkout('konkurranse')">Rediger</button>
+                    </h4>
                     <ul>
                         <li>Siste 3 uker før konkurranse:</li>
                         <li>Uke -3: Normal belastning</li>
@@ -526,6 +699,11 @@
                         <li>Prioriter løpespesifikk trening</li>
                         <li>Reduser sykling gradvis</li>
                     </ul>
+                    <textarea class="edit-area"></textarea>
+                    <div class="save-cancel-buttons">
+                        <button class="save-button" onclick="saveWorkout('konkurranse')">Lagre</button>
+                        <button class="cancel-button" onclick="cancelEdit('konkurranse')">Avbryt</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -575,7 +753,7 @@
             </div>
 
             <div class="detail-card">
-                <h4>Norsk treningsmodell (tilpasset volum)</h4>
+                <h4><span>Norsk treningsmodell (tilpasset volum)</span></h4>
                 <ul>
                     <li>Ved lavt volum (<5 timer/uke): Høyere andel kvalitet (30-40%)</li>
                     <li>Ved moderat volum (5-8 timer/uke): Tradisjonell 80/20 fordeling</li>
@@ -587,7 +765,7 @@
             </div>
 
             <div class="detail-card">
-                <h4>Periodisering (4-ukers sykluser)</h4>
+                <h4><span>Periodisering (4-ukers sykluser)</span></h4>
                 <ul>
                     <li>Uke 1: Moderat belastning (90% av maks)</li>
                     <li>Uke 2: Økt belastning (100%)</li>
@@ -599,7 +777,7 @@
             </div>
 
             <div class="detail-card">
-                <h4>Restitusjon og tilpasning</h4>
+                <h4><span>Restitusjon og tilpasning</span></h4>
                 <ul>
                     <li>Minimum 48 timer mellom hardøkter ved <5 økter/uke</li>
                     <li>Kan ha hardøkt 2 dager på rad ved 6+ økter/uke</li>
@@ -610,7 +788,7 @@
             </div>
 
             <div class="detail-card">
-                <h4>Løping vs sykling</h4>
+                <h4><span>Løping vs sykling</span></h4>
                 <ul>
                     <li>Sykkel: 5-10 slag lavere puls enn løp</li>
                     <li>Tid-konvertering: 1 time løp ≈ 1.5-2 timer sykkel</li>
@@ -621,7 +799,7 @@
             </div>
 
             <div class="detail-card">
-                <h4>Praktiske tips</h4>
+                <h4><span>Praktiske tips</span></h4>
                 <ul>
                     <li>Loggfør alle økter med puls og opplevd anstrengelse</li>
                     <li>Ukentlig evaluering: justér ved behov</li>
@@ -634,7 +812,71 @@
         </div>
     </div>
 
+    <!-- Tooltip element -->
+    <div id="tooltip" class="tooltip"></div>
+
     <script>
+        // Store workout details in memory
+        let workoutDetails = {
+            'hardøkt-løp': {
+                title: '🏃 Hardøkt løp',
+                details: [
+                    'Oppvarming: 15-20 min rolig (puls <155)',
+                    'Hoveddel (velg én):',
+                    '→ 4-6 x 4-5 min på terskel (puls ~182)',
+                    '→ 20-30 min tempoløp (puls 175-180)',
+                    '→ 3 x 8 min progressiv (170-175-180)',
+                    'Pause: 2-3 min aktiv hvile mellom drag',
+                    'Nedjogg: 10-15 min rolig'
+                ]
+            },
+            'hardøkt-sykkel': {
+                title: '🚴 Hardøkt sykkel',
+                details: [
+                    'Oppvarming: 20-25 min rolig',
+                    'Hoveddel (velg én):',
+                    '→ 4-5 x 8 min på terskel (puls ~172-177)',
+                    '→ 2 x 20 min sweetspot (puls 165-170)',
+                    '→ 40-60 min tempo (puls 160-165)',
+                    'Pause: 3-4 min lett tråkking',
+                    'Nedkjøring: 15 min rolig'
+                ]
+            },
+            'langtur': {
+                title: '🏃‍♂️ Langtur',
+                details: [
+                    'Varighet: 60-120 min (bygg gradvis)',
+                    'Intensitet: Snakkepuls (puls <155)',
+                    'Terreng: Variert, gjerne kupert',
+                    'Kan være løp eller sykkel',
+                    'Drikke hver 20. min ved >90 min',
+                    'Fokus: Aerob base og fettforbrenning'
+                ]
+            },
+            'lett-økt': {
+                title: '🚶 Lett økt',
+                details: [
+                    'Varighet: 30-60 min',
+                    'Intensitet: Helt rolig (puls <145)',
+                    'Formål: Aktiv restitusjon',
+                    'Løp, sykkel, svømming eller gange',
+                    'Avslutt med 5-10 min lett tøying',
+                    'Kan kombineres med styrke/stabilitet'
+                ]
+            },
+            'hvile': {
+                title: '😴 Hviledag',
+                details: [
+                    'Fullstendig hvile eller lett aktivitet',
+                    'Fokus på restitusjon',
+                    'God søvn (7-9 timer)',
+                    'Riktig ernæring og hydrering',
+                    'Lett tøying eller yoga',
+                    'Mental avslapning'
+                ]
+            }
+        };
+
         const variants = [
             // 2 økter varianter
             {
@@ -789,14 +1031,72 @@
             return '';
         }
 
+        function getWorkoutType(workout) {
+            if (workout.includes('Hardøkt løp')) return 'hardøkt-løp';
+            if (workout.includes('Hardøkt sykkel')) return 'hardøkt-sykkel';
+            if (workout.includes('Langtur')) return 'langtur';
+            if (workout.includes('Lett')) return 'lett-økt';
+            if (workout.includes('Hvile')) return 'hvile';
+            return '';
+        }
+
+        function showTooltip(element, workoutType) {
+            const tooltip = document.getElementById('tooltip');
+            const workout = workoutDetails[workoutType];
+            
+            if (!workout) return;
+            
+            let content = `<h4>${workout.title}</h4><ul>`;
+            workout.details.forEach(detail => {
+                content += `<li>${detail}</li>`;
+            });
+            content += '</ul>';
+            
+            tooltip.innerHTML = content;
+            tooltip.classList.add('active');
+            
+            // Position tooltip
+            const rect = element.getBoundingClientRect();
+            const tooltipRect = tooltip.getBoundingClientRect();
+            
+            let left = rect.left + (rect.width / 2) - (tooltipRect.width / 2);
+            let top = rect.bottom + 10;
+            
+            // Check if tooltip goes off screen
+            if (left < 10) left = 10;
+            if (left + tooltipRect.width > window.innerWidth - 10) {
+                left = window.innerWidth - tooltipRect.width - 10;
+            }
+            
+            if (top + tooltipRect.height > window.innerHeight - 10) {
+                top = rect.top - tooltipRect.height - 10;
+            }
+            
+            tooltip.style.left = left + 'px';
+            tooltip.style.top = top + 'px';
+        }
+
+        function hideTooltip() {
+            const tooltip = document.getElementById('tooltip');
+            tooltip.classList.remove('active');
+        }
+
         function loadVariants() {
             const tbody = document.getElementById('variants-table');
             tbody.innerHTML = variants.map(variant => `
                 <tr class="variant-row" data-sessions="${variant.sessions}">
                     <td class="variant-name">${variant.name}<br><small style="color: var(--gray-5); font-weight: normal;">${variant.description}</small></td>
-                    ${variant.days.map(day => 
-                        `<td><span class="${getWorkoutClass(day)}">${day}</span></td>`
-                    ).join('')}
+                    ${variant.days.map(day => {
+                        const workoutClass = getWorkoutClass(day);
+                        const workoutType = getWorkoutType(day);
+                        return `<td>
+                            <span class="workout-badge ${workoutClass}" 
+                                  onmouseenter="showTooltip(this, '${workoutType}')"
+                                  onmouseleave="hideTooltip()">
+                                ${day}
+                            </span>
+                        </td>`;
+                    }).join('')}
                 </tr>
             `).join('');
         }
@@ -816,6 +1116,54 @@
                     }
                 }
             });
+        }
+
+        function editWorkout(type) {
+            const card = document.querySelector(`[data-workout-type="${type}"]`);
+            const ul = card.querySelector('ul');
+            const textarea = card.querySelector('.edit-area');
+            
+            // Get current text from ul
+            const items = ul.querySelectorAll('li');
+            let text = '';
+            items.forEach(item => {
+                text += item.textContent.replace('→ ', '') + '\n';
+            });
+            
+            textarea.value = text.trim();
+            card.classList.add('editing');
+        }
+
+        function saveWorkout(type) {
+            const card = document.querySelector(`[data-workout-type="${type}"]`);
+            const textarea = card.querySelector('.edit-area');
+            const ul = card.querySelector('ul');
+            
+            // Parse textarea content
+            const lines = textarea.value.split('\n').filter(line => line.trim());
+            const details = lines.map(line => line.trim());
+            
+            // Update in-memory storage
+            const titleElement = card.querySelector('h4 span').textContent;
+            workoutDetails[type] = {
+                title: titleElement,
+                details: details
+            };
+            
+            // Update display
+            ul.innerHTML = '';
+            details.forEach(detail => {
+                const li = document.createElement('li');
+                li.textContent = detail;
+                ul.appendChild(li);
+            });
+            
+            card.classList.remove('editing');
+        }
+
+        function cancelEdit(type) {
+            const card = document.querySelector(`[data-workout-type="${type}"]`);
+            card.classList.remove('editing');
         }
 
         // Load variants on page load
